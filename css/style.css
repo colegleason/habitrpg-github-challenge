@@ -1,0 +1,19 @@
+h1 {
+    text-align: center;
+}
+
+#wrap {
+    margin: auto;
+    width: 900px;
+}
+
+
+#members {
+    width: 100%;
+    margin: auto;
+}
+
+#members th, tr {
+    border: 1px solid black;
+    text-align:center;
+}

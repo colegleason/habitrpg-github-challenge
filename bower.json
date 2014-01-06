@@ -1,0 +1,20 @@
+{
+  "name": "habitrpg-github-challenge",
+  "version": "0.0.1",
+  "authors": [
+    "Cole Gleason <colewashere@gmail.com>"
+  ],
+  "description": "A leaderboard for a Github-related HabitRPG challenge.",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "cal-heatmap": "~3.3.10"
+  }
+}
