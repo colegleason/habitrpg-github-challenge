@@ -1,1 +1,1 @@
-s3cmd sync --exclude 'sync.sh' --exclude '.DS_Store' --exclude '.gitignore' --exclude 'bower.json' --exclude '.git/*' --add-header=Expires:max-age=604800 --acl-public ./ s3://habitrpg-github-challenge
+s3cmd sync --exclude 'sync.sh' --exclude '.DS_Store' --exclude '.gitignore' --exclude 'bower.json' --exclude '.git/*' --add-header=Expires:max-age=604800 --acl-public ./ s3://habitrpg-github.colegleason.com
