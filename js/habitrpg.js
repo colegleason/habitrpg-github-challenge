@@ -49,20 +49,20 @@ function loadData(auth, root) {
 
 function fetchChallenge(id, callback) {
     $.getJSON(habitBaseUrl + '/challenges/' + id, {}, function(challenge) {
-            defaultText.push(challenge.dailys[0].notes);
-            callback(challenge);
-        });;
+        defaultText.push(challenge.dailys[0].notes);
+        callback(challenge);
+    });;
 }
 
 function fetchMemberProgress(member, auth, callback) {
     var url = habitBaseUrl + '/challenges/'+ challengeId + '/member/' + member._id;
-        $.ajax(url, {
-            headers: {
-                'x-api-user': auth.user,
-                'x-api-key': auth.key
-            },
-            success: callback
-        });
+    $.ajax(url, {
+        headers: {
+            'x-api-user': auth.user,
+            'x-api-key': auth.key
+        },
+        success: callback
+    });
 }
 
 function parseGithubData(data, startDate, endDate) {
@@ -117,3 +117,22 @@ function fetchGithubContribs(username, callback) {
 
     });
 };
+
+
+function supports_html5_storage() {
+    try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+    } catch (e) {
+        return false;
+    }
+}
+
+function loadAuthFromStorage() {
+    var user = localStorage['habitrpg.api.user'];
+    var key =localStorage['habitrpg.api.key'];
+    if (key && user) {
+        return {key:key,user:user};
+    } else {
+        return null;
+    }
+}

@@ -62,9 +62,22 @@ challenge on 2/4/14. Login below to see the current statistics.
     </div>
     <script type="text/javascript">
       $('#members').hide();
+      if (supports_html5_storage()) {
+      var auth = loadAuthFromStorage();
+      if (auth != null) {
+      loadData(auth, $('#members'));
+      $('#api-login').hide();
+      $('#members').show();
+      }
+      }
+
       $('#api-login').submit(function() {
       event.preventDefault();
       var auth = {user: $('#api-user').val(), key: $('#api-token').val()};
+      if (supports_html5_storage()) {
+      localStorage['habitrpg.api.key'] = auth.key;
+      localStorage['habitrpg.api.user'] = auth.user;
+      }
       loadData(auth, $('#members'));
       $('#api-login').hide();
       $('#members').show();
