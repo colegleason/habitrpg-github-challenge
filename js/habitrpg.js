@@ -10,7 +10,7 @@ function loadData(auth, root) {
     // we need the list of members participating in the challenge
     fetchChallenge(challengeId, function(challenge) {
         challenge.members.forEach(function(member) {
-            var element = $('<tr>', {id: member._id}).appendTo(root);
+            var element = $('<tr>', {class: 'member', id: member._id}).appendTo(root);
             $('<td>', {text: member.profile.name}).appendTo(element);
             // they store their Github usernames in the 'Extra Notes' section of
             // the challenge's daily task
@@ -30,10 +30,15 @@ function loadData(auth, root) {
                         var formatted = parseGithubData(data, startDate, endDate);
                         // add total cell
                         $('<td>', {text: formatted.total}).appendTo(element);
+                        // add days cell
+                        $('<td>', {text: formatted.days}).appendTo(element);
                         // add Streak cell
                         $('<td>', {text: formatted.streak}).appendTo(element);
+                        // add Score cell
+                        $('<td>', {text: score(formatted).toFixed(1), class: 'score'}).appendTo(element);
                         // create the heatmap and append it to the DOM
                         makeHeatMap(formatted.heatmap, $('<td>').appendTo(element)[0]);
+                        sortMembers();
                     });
                 } else {
                     // They haven't given us a username, so display an error
@@ -67,7 +72,7 @@ function fetchMemberProgress(member, auth, callback) {
 
 function parseGithubData(data, startDate, endDate) {
     if (data.query.results) {
-        var formatted = {heatmap: {}, streak: 0, total: 0};
+        var formatted = {heatmap: {}, streak: 0, total: 0, days:0};
         // oh YQL, why do you torture me so?
         data = data.query.results.json.json;
         data.forEach(function(day) {
@@ -76,6 +81,7 @@ function parseGithubData(data, startDate, endDate) {
             var value = parseInt(day[1]);
             if (startDate.getTime() <= time && time <= endDate.getTime()) {
                 formatted.streak = (value > 0) ? formatted.streak + 1 : 0;
+                formatted.days += (value > 0) ? 1 : 0;
                 formatted.total += value;
                 formatted.heatmap[(time/1000).toString()] = parseInt(day[1]);
             }
@@ -90,6 +96,7 @@ function makeHeatMap(data, element) {
     var cal = new CalHeatMap();
     cal.init({
         data: data,
+        displayLegend: false,
         range: 2,
         legend: [1, 3, 5, 10],
         highlight: [startDate, 'now', endDate],
@@ -135,4 +142,18 @@ function loadAuthFromStorage() {
     } else {
         return null;
     }
+}
+
+function score(contribs) {
+    return contribs.days + (contribs.streak * 0.3) + (contribs.total * 0.05);
+}
+
+function sortMembers() {
+    var rows = $('#members tr.member').toArray();
+    var sorted = rows.sort(function(a, b) {
+        var scoreA = $(a).children('.score').first().text() || -1;
+        var scoreB = $(b).children('.score').first().text() || -1;
+        return parseFloat(scoreB) - parseFloat(scoreA);
+    });
+    $('#members').append(sorted);
 }

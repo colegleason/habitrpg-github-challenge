@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="/css/style.css"/>
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="/js/habitrpg.js"></script>
     <script type="text/javascript" src="/bower_components/d3/d3.min.js"></script>
 
     <script type="text/javascript" src="/bower_components/cal-heatmap/cal-heatmap.min.js"></script>
@@ -46,22 +45,28 @@ challenge on 2/4/14. Login below to see the current statistics.
         <input type="submit" name="submit" value="Go!" />
       </form>
       <table id="members">
+        <p>Score = days + (streak * 0.3) + (total * 0.05). This may change later.<p>
         <colgroup>
           <col span="1" style="width: 20%;">
           <col span="1" style="width: 20%;">
-          <col span="1" style="width: 20%;">
-          <col span="1" style="width: 20%;">
+          <col span="1" style="width: 10%;">
+          <col span="1" style="width: 10%;">
+          <col span="1" style="width: 10%;">
+          <col span="1" style="width: 10%;">
           <col span="1" style="width: 20%;">
         </colgroup>
         <tr>
           <th>HabitRPG</th>
           <th>Github</th>
           <th>Total</th>
+          <th>Days</th>
           <th>Streak</th>
+          <th>Score</th>
           <th>Heatmap</th>
         </tr>
       </table>
     </div>
+    <script type="text/javascript" src="/js/habitrpg.js"></script>
     <script type="text/javascript">
       $('#members').hide();
       if (supports_html5_storage()) {
