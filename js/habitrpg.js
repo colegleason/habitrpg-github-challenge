@@ -6,6 +6,18 @@ var startDate = new Date(2014, 0, 3); // why the fuck is the month zero indexed?
 var endDate = new Date(2014, 1, 4);
 var users;
 
+var ghOverride = {
+    Fandekasp: "Fandekasp",
+    mpmiszczyk: "mpmiszczyk",
+    Malharhak:"Malharhak",
+    "Elektro Korobase": "Elektro121",
+    redwire: "redwire",
+    thisisboris:"thisisboris",
+    Cole: "colegleason",
+    Melevir: "Melevir",
+    hopefulwebdev: "zkay"
+};
+
 function loadData(auth, root) {
     // we need the list of members participating in the challenge
     fetchChallenge(challengeId, function(challenge) {
@@ -60,6 +72,8 @@ function fetchChallenge(id, callback) {
 }
 
 function fetchMemberProgress(member, auth, callback) {
+    if (ghOverride[member.profile.name])
+        return callback({ dailys: [{notes:ghOverride[member.profile.name]}]});
     var url = habitBaseUrl + '/challenges/'+ challengeId + '/member/' + member._id;
     $.ajax(url, {
         headers: {
